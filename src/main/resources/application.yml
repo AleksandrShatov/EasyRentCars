@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    hikari:
+      jdbc-url: "jdbc:postgresql://localhost:5432/rent_cars"
+      maximum-pool-size: 10
+      driver-class-name: org.postgresqlDriver
+    username: postgres
+    password: postgres
+    url: "jdbc:postgresql://localhost:5432/rent_cars"
+    driver-class-name: org.postgresql.Driver
+
+---
+
+server:
+  port: 8080
+
+---
+
+security:
+  secretKey: !_hi_this_is_my_rent_cars_secret_key_!
+
+---
+
+jwtconfig:
+  secret: jwt_secret_for_rent_cars
+  expiration: 60000

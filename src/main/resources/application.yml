@@ -3,7 +3,7 @@ spring:
     hikari:
       jdbc-url: "jdbc:postgresql://localhost:5432/rent_cars"
       maximum-pool-size: 10
-      driver-class-name: org.postgresqlDriver
+      driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres
     url: "jdbc:postgresql://localhost:5432/rent_cars"
@@ -17,7 +17,7 @@ server:
 ---
 
 security:
-  secretKey: !_hi_this_is_my_rent_cars_secret_key_!
+  secretKey: hi_this_is_my_rent_cars_secret_key!
 
 ---
 

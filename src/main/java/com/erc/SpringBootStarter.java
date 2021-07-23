@@ -2,6 +2,7 @@ package com.erc;
 
 import com.erc.beans.ApplicationBeans;
 import com.erc.beans.PersistenceBeanConfiguration;
+import com.erc.beans.SwaggerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -15,6 +16,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @Import({
         ApplicationBeans.class,
+        SwaggerConfig.class,
         PersistenceBeanConfiguration.class
 })
 public class SpringBootStarter {

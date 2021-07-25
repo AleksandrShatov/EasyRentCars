@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
@@ -31,13 +32,13 @@ public class User {
     private String patronymic;
 
     @Column(name = "passport_number")
-    private int passportNumber;
+    private Integer passportNumber;
 
     @Column(name = "passport_series")
     private String passportSeries;
 
     @Column
-    private int phone;
+    private Integer phone;
 
     @Column
     private String email;

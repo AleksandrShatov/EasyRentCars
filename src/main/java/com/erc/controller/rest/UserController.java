@@ -1,6 +1,6 @@
 package com.erc.controller.rest;
 
-import com.erc.controller.requests.RoleAddRequest;
+import com.erc.controller.requests.RoleUpdateRequest;
 import com.erc.controller.requests.UserCreateRequest;
 import com.erc.controller.requests.UserUpdateRequest;
 import com.erc.domain.hibernate.Role;
@@ -122,7 +122,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "User ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@RequestParam Long id) {
         userRepository.delete(id);
     }
@@ -134,11 +134,11 @@ public class UserController {
 //            @ApiImplicitParam(name = "requests", value = "Roles for user", required = true, dataType = "string", paramType = "body")
 //    })
     @PostMapping("/save/roles")
-    public void saveUserRoles(@RequestParam Long userId, @RequestBody List<RoleAddRequest> requests) {
+    public void saveUserRoles(@RequestParam Long userId, @RequestBody List<RoleUpdateRequest> requests) {
 
         List<Role> roles = new ArrayList<>();
 
-        for (RoleAddRequest addRole : requests) {
+        for (RoleUpdateRequest addRole : requests) {
             Role role = new Role();
             role.setRoleName(addRole.getRoleName());
             role.setId(addRole.getId());

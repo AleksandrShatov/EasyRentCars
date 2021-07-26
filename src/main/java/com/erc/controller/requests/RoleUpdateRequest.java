@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleAddRequest {
+public class RoleUpdateRequest {
     private Integer id;
     private String roleName;
 }

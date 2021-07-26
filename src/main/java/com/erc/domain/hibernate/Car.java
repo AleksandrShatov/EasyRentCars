@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "cars")
@@ -14,19 +15,16 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(name = "reg_number")
-    private String regNumber;
+    private Integer regNumber;
 
     @Column(name = "production_date")
-    private String productionDate;
+    private LocalDateTime productionDate;
 
     @Column
-    private String tariff;
-
-    @Column
-    private String insurance;
+    private Integer tariff;
 
     @Column
     private String type;

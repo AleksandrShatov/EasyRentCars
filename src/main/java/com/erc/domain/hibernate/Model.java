@@ -18,7 +18,7 @@ public class Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column
     private String manufacturer;
@@ -30,7 +30,7 @@ public class Model {
     private String fuel;
 
     @Column(name = "engine_volume")
-    private String engineVolume;
+    private Float engineVolume;
 
     @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference

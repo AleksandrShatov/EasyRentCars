@@ -5,11 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@ApiOperation("Class for updating role entity")
+@ApiOperation(value = "Class for creating model entity")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleUpdateRequest {
-    private Integer id;
-    private String roleName;
+public class ModelCreateRequest {
+
+    private String manufacturer;
+
+    private String model;
+
+    private String fuel;
+
+    private Float engineVolume;
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ModelRepository extends CrudOperations<Long, Model> {
 
-    List<Model> findByModel(String model);
+    List<Model> findByModelName(String modelName);
 
     List<Model> findByManufacturer(String manufacturer);
 

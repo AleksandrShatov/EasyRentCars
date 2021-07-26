@@ -13,7 +13,7 @@ public class ModelCreateRequest {
 
     private String manufacturer;
 
-    private String model;
+    private String modelName;
 
     private String fuel;
 

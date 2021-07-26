@@ -1,5 +1,6 @@
 package com.erc.domain.hibernate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,8 +24,8 @@ public class Model {
     @Column
     private String manufacturer;
 
-    @Column
-    private String model;
+    @Column(name = "model_name")
+    private String modelName;
 
     @Column
     private String fuel;
@@ -33,7 +34,8 @@ public class Model {
     private Float engineVolume;
 
     @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+//    @JsonManagedReference // Don't show model for cars!!!
+    @JsonIgnoreProperties("model")
     private Set<Car> cars = Collections.emptySet();
 
 }

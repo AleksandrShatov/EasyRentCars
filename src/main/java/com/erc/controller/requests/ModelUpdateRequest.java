@@ -15,7 +15,7 @@ public class ModelUpdateRequest {
 
     private String manufacturer;
 
-    private String model;
+    private String modelName;
 
     private String fuel;
 

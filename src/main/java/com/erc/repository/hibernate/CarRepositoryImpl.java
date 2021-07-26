@@ -1,6 +1,6 @@
 package com.erc.repository.hibernate;
 
-import com.erc.domain.hibernate.Model;
+import com.erc.domain.hibernate.Car;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class ModelRepositoryImpl implements ModelRepository{
+public class CarRepositoryImpl implements CarRepository {
 
     @Autowired
     @Qualifier("sessionFactory")
@@ -25,95 +25,96 @@ public class ModelRepositoryImpl implements ModelRepository{
     @Qualifier("entityManagerFactory")
     private EntityManager entityManager;
 
-
     @Override
-    public List<Model> findAll() {
+    public List<Car> findAll() {
         try(Session session = sessionFactory.openSession()) {
-            return session.createQuery("select m from Model m", Model.class).getResultList();
+            return session.createQuery("select c from Car c", Car.class).getResultList();
         }
     }
 
     @Override
-    public Model findOne(Long id) {
+    public Car findOne(Long id) {
         try(Session session = sessionFactory.openSession()) {
-            return session.find(Model.class, id);
+            return session.find(Car.class, id);
         }
     }
 
     @Override
-    public List<Model> findByModelName(String modelName) {
+    public Car findByRegNumber(String regNumber) {
         try(Session session = sessionFactory.openSession()) {
 
-            Query<Model> query = session.createQuery("select m from Model m where m.modelName = :modelName", Model.class);
-            query.setParameter("modelName", modelName);
+            Query<Car> query = session.createQuery("select c from Car c where c.regNumber = :regNumber", Car.class);
+            query.setParameter("regNumber", regNumber);
+
+            return query.getSingleResult();
+        }
+    }
+
+    @Override
+    public List<Car> findByTariff(Integer tariff) {
+        try(Session session = sessionFactory.openSession()) {
+
+            Query<Car> query = session.createQuery("select c from Car c where c.tariff = :tariff", Car.class);
+            query.setParameter("tariff", tariff);
 
             return query.getResultList();
         }
     }
 
     @Override
-    public List<Model> findByManufacturer(String manufacturer) {
+    public List<Car> findByCarStatus(String carStatus) {
         try(Session session = sessionFactory.openSession()) {
 
-            Query<Model> query = session.createQuery("select m from Model m where m.manufacturer = :manufacturer", Model.class);
-            query.setParameter("manufacturer", manufacturer);
+            Query<Car> query = session.createQuery("select c from Car c where c.carStatus = :carStatus", Car.class);
+            query.setParameter("carStatus", carStatus);
 
             return query.getResultList();
         }
     }
 
     @Override
-    public List<Model> findByFuel(String fuel) {
-        try(Session session = sessionFactory.openSession()) {
-
-            Query<Model> query = session.createQuery("select m from Model m where m.fuel = :fuel", Model.class);
-            query.setParameter("fuel", fuel);
-
-            return query.getResultList();
-        }
-    }
-
-    @Override
-    public Model save(Model entity) {
+    public Car save(Car entity) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            Long modelId = (Long) session.save(entity);
+            Long carId = (Long) session.save(entity);
             transaction.commit();
-            return findOne(modelId);
+            return findOne(carId);
         }
     }
 
     @Override
-    public void addOne(Model entity) {
+    public void addOne(Car entity) {
         try (Session session = sessionFactory.openSession()) {
             session.save(entity);
         }
     }
 
     @Override
-    public void save(List<Model> entities) {
-        for (Model model : entities) {
-            addOne(model);
+    public void save(List<Car> entities) {
+        for (Car car : entities) {
+            addOne(car);
         }
     }
 
     @Override
-    public Model update(Model entity) {
+    public Car update(Car entity) {
         try(Session session = sessionFactory.openSession()) {
 
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            Query<Model> query = session.createQuery("update Model m set " +
-                    "m.manufacturer = :manufacturer, " +
-                    "m.modelName = :modelName, " +
-                    "m.fuel = :fuel, " +
-                    "m.engineVolume = :engineVolume " +
-                    "where m.id = :id");
-            query.setParameter("manufacturer", entity.getManufacturer());
-            query.setParameter("modelName", entity.getModelName());
-            query.setParameter("fuel", entity.getFuel());
-            query.setParameter("engineVolume", entity.getEngineVolume());
+            Query<Car> query = session.createQuery("update Car c set " +
+                    "c.regNumber = :regNumber, " +
+                    "c.productionDate = :productionDate, " +
+                    "c.tariff = :tariff, " +
+                    "c.color = :color, " +
+                    "c.carStatus = :carStatus " +
+                    "where c.id = :id");
+            query.setParameter("regNumber", entity.getRegNumber());
+            query.setParameter("productionDate", entity.getProductionDate());
+            query.setParameter("tariff", entity.getTariff());
+            query.setParameter("color", entity.getColor());
+            query.setParameter("carStatus", entity.getCarStatus());
             query.setParameter("id", entity.getId());
             query.executeUpdate();
             transaction.commit();
@@ -121,6 +122,7 @@ public class ModelRepositoryImpl implements ModelRepository{
             session.update(entity);
 
             return findOne(entity.getId());
+
         }
     }
 
@@ -129,7 +131,7 @@ public class ModelRepositoryImpl implements ModelRepository{
         try(Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            Query<Model> query = session.createQuery("delete from Model m where m.id = :id");
+            Query<Car> query = session.createQuery("delete from Car c where c.id = :id");
             query.setParameter("id", id);
             query.executeUpdate();
             transaction.commit();

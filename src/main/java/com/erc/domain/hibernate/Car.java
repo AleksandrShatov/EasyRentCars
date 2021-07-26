@@ -1,6 +1,7 @@
 package com.erc.domain.hibernate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,7 @@ public class Car {
     private Long id;
 
     @Column(name = "reg_number")
-    private Integer regNumber;
+    private String regNumber;
 
     @Column(name = "production_date")
     private LocalDateTime productionDate;
@@ -27,17 +28,15 @@ public class Car {
     private Integer tariff;
 
     @Column
-    private String type;
-
-    @Column
     private String color;
 
     @Column(name = "car_status")
     private String carStatus;
 
     @ManyToOne
-    @JoinColumn(name = "model_id")
-    @JsonBackReference
+    @JoinColumn(name = "model_id", referencedColumnName = "id")
+//    @JsonBackReference // Don't show model for cars!!!
+    @JsonIgnoreProperties("cars")
     private Model model;
 
 }

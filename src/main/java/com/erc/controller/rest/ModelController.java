@@ -34,13 +34,13 @@ public class ModelController {
         return modelRepository.findOne(id);
     }
 
-    @ApiOperation("Find model by model")
+    @ApiOperation("Find model by model name")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "model", value = "Model", required = true, dataType = "string", paramType = "query")
+            @ApiImplicitParam(name = "modelName", value = "Model name", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{model}")
-    public List<Model> findByModel(@RequestParam String model) {
-        return modelRepository.findByModel(model);
+    @GetMapping("/find/{modelName}")
+    public List<Model> findByModel(@RequestParam String modelName) {
+        return modelRepository.findByModelName(modelName);
     }
 
     @ApiOperation("Find model by manufacturer")
@@ -67,7 +67,7 @@ public class ModelController {
 
         Model model = new Model();
         model.setManufacturer(request.getManufacturer());
-        model.setModel(request.getModel());
+        model.setModelName(request.getModelName());
         model.setFuel(request.getFuel());
         model.setEngineVolume(request.getEngineVolume());
 
@@ -96,7 +96,7 @@ public class ModelController {
         Model model = new Model();
         model.setId(request.getId());
         model.setManufacturer(request.getManufacturer());
-        model.setModel(request.getModel());
+        model.setModelName(request.getModelName());
         model.setFuel(request.getFuel());
         model.setEngineVolume(request.getEngineVolume());
 

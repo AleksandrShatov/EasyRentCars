@@ -8,5 +8,8 @@ import java.util.List;
 
 public interface RoleRepository extends CrudOperations<Integer, Role> {
 
+    Role findByRoleName(String roleName);
+
     List<Role> getUserRoles(User user);
+
 }

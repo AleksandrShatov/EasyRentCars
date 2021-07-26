@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"roles"})
+@EqualsAndHashCode(exclude = {"roles", "rents"})
 public class User {
 
     @Id
@@ -54,5 +54,9 @@ public class User {
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("users")
     private Set<Role> roles = Collections.emptySet();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("user")
+    private Set<Rent> rents = Collections.emptySet();
 
 }

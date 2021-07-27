@@ -2,6 +2,7 @@ package com.erc.domain.hibernate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "rents")
 @Data
 @NoArgsConstructor
+//@EqualsAndHashCode(exclude = {"user", "car"})
 public class Rent {
 
     @Id

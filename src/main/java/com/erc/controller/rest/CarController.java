@@ -140,6 +140,7 @@ public class CarController {
     @DeleteMapping("/delete/{id}")
     public void delete(@RequestParam Long id) {
         carRepository.delete(id);
+//        modelRepository.delete(id); // TODO: We can delete data from wrong repository!!!
     }
 
     @ApiOperation("Change car status")

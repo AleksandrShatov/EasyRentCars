@@ -12,4 +12,6 @@ public interface CarRepository extends CrudOperations<Long, Car> {
     List<Car> findByTariff(Integer tariff);
 
     List<Car> findByCarStatus(String carStatus);
+
+    void changeCarStatus(Long carId, String carStatus);
 }

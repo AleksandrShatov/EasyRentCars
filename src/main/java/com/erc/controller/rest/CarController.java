@@ -142,4 +142,18 @@ public class CarController {
         carRepository.delete(id);
     }
 
+    @ApiOperation("Change car status")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "carId", value = "Car ID", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "carStatus", value = "New status for car", required = true, dataType = "string", paramType = "query",
+                    allowableValues = "NOT_AVAILABLE, AVAILABLE, RESERVED, IN_RENT")
+    })
+    @PostMapping("/change/carStatus/{carId, carStatus}")
+    public Car changeCarStatus(@RequestParam Long carId, @RequestParam String carStatus) {
+
+        carRepository.changeCarStatus(carId, carStatus);
+
+        return findOne(carId);
+    }
+
 }

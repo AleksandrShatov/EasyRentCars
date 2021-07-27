@@ -137,4 +137,17 @@ public class CarRepositoryImpl implements CarRepository {
             transaction.commit();
         }
     }
+
+    @Override
+    public void changeCarStatus(Long carId, String carStatus) {
+        try(Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+            Query<Car> query = session.createQuery("update Car c set c.carStatus = :carStatus where c.id = :carId");
+            query.setParameter("carStatus", carStatus);
+            query.setParameter("carId", carId);
+            query.executeUpdate();
+            transaction.commit();
+        }
+    }
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "cars")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"rents"})
+@EqualsAndHashCode(exclude = {"rents", "discounts"})
 public class Car {
 
     @Id
@@ -42,6 +42,10 @@ public class Car {
 //    @JsonBackReference // Don't show model for cars!!!
     @JsonIgnoreProperties("cars")
     private Model model;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("car")
+    private Set<Discount> discounts = Collections.emptySet();
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("car")

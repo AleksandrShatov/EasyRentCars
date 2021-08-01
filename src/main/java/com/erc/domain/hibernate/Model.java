@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -33,6 +34,7 @@ public class Model {
     @Column(name = "engine_volume")
     private Float engineVolume;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JsonManagedReference // Don't show model for cars!!!
     @JsonIgnoreProperties("model")

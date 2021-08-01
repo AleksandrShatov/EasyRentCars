@@ -11,6 +11,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDateTime;
+
 @Configuration
 @EnableSwagger2
 @EnableWebMvc
@@ -19,6 +21,8 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("EasyRentCars")
+//                .directModelSubstitute(LocalDateTime.class, String.class) //For makes swagger to treat LocalDateTime as String class
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())

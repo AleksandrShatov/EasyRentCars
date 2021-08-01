@@ -1,8 +1,11 @@
 package com.erc.domain.hibernate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "discounts")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"carForDiscount"})
 public class Discount {
 
     @Id
@@ -26,8 +30,9 @@ public class Discount {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     @JsonIgnoreProperties("discounts")
-    private Car car;
+    private Car carForDiscount;
 }

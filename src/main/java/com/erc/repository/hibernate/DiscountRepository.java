@@ -14,4 +14,6 @@ public interface DiscountRepository extends CrudOperations<Long, Discount> {
 
     List<Discount> findFromStartDate(LocalDateTime startDate);
 
+    LocalDateTime getLastEndDateByCarId(Long carId);
+
 }

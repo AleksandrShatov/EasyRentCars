@@ -2,10 +2,8 @@ package com.erc.controller.rest;
 
 import com.erc.controller.requests.DiscountCreateRequest;
 import com.erc.controller.requests.DiscountUpdateRequest;
-import com.erc.controller.requests.RentCreateRequest;
 import com.erc.domain.hibernate.Car;
 import com.erc.domain.hibernate.Discount;
-import com.erc.domain.hibernate.Rent;
 import com.erc.repository.hibernate.CarRepository;
 import com.erc.repository.hibernate.DiscountRepository;
 import io.swagger.annotations.ApiImplicitParam;

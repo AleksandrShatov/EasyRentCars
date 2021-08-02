@@ -1,6 +1,7 @@
 package com.erc.domain.hibernate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -43,4 +44,8 @@ public class Rent {
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     @JsonIgnoreProperties("rents")
     private Car car;
+
+    @OneToOne(mappedBy = "rent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private Bill bill;
 }

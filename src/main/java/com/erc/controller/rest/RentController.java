@@ -3,6 +3,7 @@ package com.erc.controller.rest;
 import com.erc.controller.requests.RentCreateRequest;
 import com.erc.controller.requests.RentUpdateRequest;
 import com.erc.domain.CarStatus;
+import com.erc.domain.RentStatus;
 import com.erc.domain.hibernate.Car;
 import com.erc.domain.hibernate.Rent;
 import com.erc.domain.hibernate.User;
@@ -89,7 +90,7 @@ public class RentController {
                     rent.setCar(car);
                     rent.setStartRentDate(startDate);
                     rent.setNumberOfDays(numberOfDays);
-                    rent.setRentStatus("NOT_CONFIRMED"); // TODO: ENUM?
+                    rent.setRentStatus(RentStatus.NOT_CONFIRMED);
                     rent.setEndRentDate(endDate);
 
                     return rentRepository.save(rent);

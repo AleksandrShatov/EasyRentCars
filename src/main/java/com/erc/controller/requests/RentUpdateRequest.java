@@ -1,5 +1,6 @@
 package com.erc.controller.requests;
 
+import com.erc.domain.RentStatus;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,6 @@ public class RentUpdateRequest {
 
     private Integer numberOfDays;
 
-    private String rentStatus;
+    private RentStatus rentStatus;
 
 }

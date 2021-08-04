@@ -1,10 +1,12 @@
 package com.erc.domain.hibernate;
 
+import com.erc.domain.RentStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -33,7 +35,8 @@ public class Rent {
     private LocalDateTime actualReturnDate;
 
     @Column(name = "rent_status")
-    private String rentStatus;
+    @Enumerated(EnumType.STRING)
+    private RentStatus rentStatus = RentStatus.NOT_CONFIRMED;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -45,7 +48,9 @@ public class Rent {
     @JsonIgnoreProperties("rents")
     private Car car;
 
-    @OneToOne(mappedBy = "rent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
-    private Bill bill;
+    // TODO: StackOverflowError with Bill and Rent
+//    @ToString.Exclude
+//    @OneToOne(mappedBy = "rent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonManagedReference
+//    private Bill bill;
 }

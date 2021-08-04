@@ -1,5 +1,6 @@
 package com.erc.repository.hibernate;
 
+import com.erc.domain.CarStatus;
 import com.erc.domain.hibernate.Car;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
@@ -62,7 +63,7 @@ public class CarRepositoryImpl implements CarRepository {
     }
 
     @Override
-    public List<Car> findByCarStatus(String carStatus) {
+    public List<Car> findByCarStatus(CarStatus carStatus) {
         try(Session session = sessionFactory.openSession()) {
 
             Query<Car> query = session.createQuery("select c from Car c where c.carStatus = :carStatus", Car.class);
@@ -139,7 +140,7 @@ public class CarRepositoryImpl implements CarRepository {
     }
 
     @Override
-    public void changeCarStatus(Long carId, String carStatus) {
+    public void changeCarStatus(Long carId, CarStatus carStatus) {
         try(Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
             transaction.begin();

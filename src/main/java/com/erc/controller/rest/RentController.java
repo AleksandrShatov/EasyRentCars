@@ -2,6 +2,7 @@ package com.erc.controller.rest;
 
 import com.erc.controller.requests.RentCreateRequest;
 import com.erc.controller.requests.RentUpdateRequest;
+import com.erc.domain.CarStatus;
 import com.erc.domain.hibernate.Car;
 import com.erc.domain.hibernate.Rent;
 import com.erc.domain.hibernate.User;
@@ -75,9 +76,9 @@ public class RentController {
                 User user = searchUserResult.get();
                 Car car = searchCarResult.get();
 
-                if(car.getCarStatus().equals("AVAILABLE")) { // TODO: ENUM?
+                if(car.getCarStatus().equals(CarStatus.AVAILABLE)) {
 
-                    carRepository.changeCarStatus(car.getId(), "RESERVED"); // TODO: ENUM?
+                    carRepository.changeCarStatus(car.getId(), CarStatus.RESERVED);
 
                     LocalDateTime startDate = request.getStartRentDate();
                     Integer numberOfDays = request.getNumberOfDays();
@@ -132,13 +133,13 @@ public class RentController {
                 Rent rent = searchRentResult.get();
 
                 boolean isCarEquals = rent.getCar().getId().equals(car.getId());
-                boolean isCarAvailable = car.getCarStatus().equals("AVAILABLE");
+                boolean isCarAvailable = car.getCarStatus().equals(CarStatus.AVAILABLE);
 
                 if(isCarEquals || isCarAvailable) {
 
                     if(!isCarEquals) {
-                        carRepository.changeCarStatus(rent.getCar().getId(), "AVAILABLE");
-                        carRepository.changeCarStatus(car.getId(), "RESERVED");
+                        carRepository.changeCarStatus(rent.getCar().getId(), CarStatus.AVAILABLE);
+                        carRepository.changeCarStatus(car.getId(), CarStatus.RESERVED);
                     }
 
                     rent.setId(request.getId());
@@ -175,7 +176,7 @@ public class RentController {
 
                 Rent rent = searchRentResult.get();
                 Long carId = rent.getCar().getId();
-                carRepository.changeCarStatus(carId, "AVAILABLE");
+                carRepository.changeCarStatus(carId, CarStatus.AVAILABLE);
                 rentRepository.delete(id);
 
             }

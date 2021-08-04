@@ -2,6 +2,7 @@ package com.erc.controller.rest;
 
 import com.erc.controller.requests.CarCreateRequest;
 import com.erc.controller.requests.CarUpdateRequest;
+import com.erc.domain.CarStatus;
 import com.erc.domain.hibernate.Car;
 import com.erc.domain.hibernate.Model;
 import com.erc.repository.hibernate.CarRepository;
@@ -63,8 +64,14 @@ public class CarController {
             @ApiImplicitParam(name = "carStatus", value = "Car status", required = true, dataType = "string", paramType = "query")
     })
     @GetMapping("/find/{carStatus}")
-    public List<Car> findByCarStatus(@RequestParam String carStatus) {
+    public List<Car> findByCarStatus(@RequestParam CarStatus carStatus) {
         return carRepository.findByCarStatus(carStatus);
+    }
+
+    @ApiOperation("Find available cars (with car status = 'AVAILABLE')")
+    @GetMapping("/find/availableCars")
+    public List<Car> findAvailableCars() {
+        return carRepository.findByCarStatus(CarStatus.AVAILABLE);
     }
 
     @ApiOperation("Save new car and return it")
@@ -150,7 +157,7 @@ public class CarController {
                     allowableValues = "NOT_AVAILABLE, AVAILABLE, RESERVED, IN_RENT")
     })
     @PostMapping("/change/carStatus/{carId, carStatus}")
-    public Car changeCarStatus(@RequestParam Long carId, @RequestParam String carStatus) {
+    public Car changeCarStatus(@RequestParam Long carId, @RequestParam CarStatus carStatus) {
 
         carRepository.changeCarStatus(carId, carStatus);
 

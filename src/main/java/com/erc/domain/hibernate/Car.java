@@ -1,5 +1,6 @@
 package com.erc.domain.hibernate;
 
+import com.erc.domain.CarStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -37,7 +38,8 @@ public class Car {
     private String color;
 
     @Column(name = "car_status")
-    private String carStatus;
+    @Enumerated(EnumType.STRING)
+    private CarStatus carStatus = CarStatus.NOT_AVAILABLE;
 
     @ToString.Exclude // TODO: Was endless loop between car and model, after adding Discount mapping
     @ManyToOne

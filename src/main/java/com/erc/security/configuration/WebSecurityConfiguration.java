@@ -76,7 +76,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/car/**").permitAll()
                 .antMatchers("/rent/**").permitAll()
                 .antMatchers("/discount/**").permitAll()
-                .antMatchers("/penalty/**").permitAll()
+                .antMatchers("/bill/**").permitAll()
                 .antMatchers("/authentication/**").permitAll()
                 .antMatchers("/rest/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")

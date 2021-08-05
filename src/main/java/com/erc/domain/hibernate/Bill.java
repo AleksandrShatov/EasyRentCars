@@ -1,8 +1,10 @@
 package com.erc.domain.hibernate;
 
+import com.erc.domain.BillStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,11 +32,13 @@ public class Bill {
     private Integer payment;
 
     @Column(name = "payment_status")
-    private String paymentStatus;
+    @Enumerated(EnumType.STRING)
+    private BillStatus paymentStatus = BillStatus.AWAITING_PAYMENT;
 
+//    @ToString.Exclude
     @OneToOne
-    @JoinColumn(name = "rent_id")
-    @JsonBackReference
+    @JoinColumn(name = "rent_id", referencedColumnName = "id")
+//    @JsonBackReference
     private Rent rent;
 
 }

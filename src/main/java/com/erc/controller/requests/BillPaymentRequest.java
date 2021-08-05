@@ -7,16 +7,16 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@ApiOperation(value = "Class for creating bill entity")
+@ApiOperation(value = "Class for paying by bill")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BillCreateRequest {
+public class BillPaymentRequest {
 
-    private Long rentId;
+    private Long id;
 
-    private Integer totalPrice;
+    private LocalDateTime paymentDate;
 
-    private LocalDateTime dateForPayment;
-    
+    private Integer payment;
+
 }

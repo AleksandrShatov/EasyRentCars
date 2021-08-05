@@ -1,5 +1,6 @@
 package com.erc.repository.hibernate;
 
+import com.erc.domain.BillStatus;
 import com.erc.domain.hibernate.Bill;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -73,11 +75,24 @@ public class BillRepositoryImpl implements BillRepository {
     }
 
     @Override
-    public List<Bill> findByPaymentStatus(String paymentStatus) {
+    public List<Bill> findByPaymentStatus(BillStatus paymentStatus) {
         try(Session session = sessionFactory.openSession()) {
 
             Query<Bill> query = session.createQuery("select b from Bill b where b.paymentStatus = :paymentStatus", Bill.class);
             query.setParameter("paymentStatus", paymentStatus);
+
+            return query.getResultList();
+        }
+    }
+
+    public List<Bill> findWithoutPaymentAndExpiredDates() {
+        try(Session session = sessionFactory.openSession()) {
+
+            LocalDateTime currentDate = LocalDateTime.now();
+
+            Query<Bill> query = session.createQuery("select b from Bill b where b.dateForPayment < :currentDate and b.paymentStatus = :paymentStatus", Bill.class);
+            query.setParameter("currentDate", currentDate);
+            query.setParameter("paymentStatus", BillStatus.AWAITING_PAYMENT);
 
             return query.getResultList();
         }
@@ -151,7 +166,7 @@ public class BillRepositoryImpl implements BillRepository {
     }
 
     @Override
-    public void changeBillPaymentStatus(Long billId, String paymentStatus) {
+    public void changeBillPaymentStatus(Long billId, BillStatus paymentStatus) {
         try(Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
             transaction.begin();
@@ -164,12 +179,16 @@ public class BillRepositoryImpl implements BillRepository {
     }
 
     @Override
-    public Bill paymentByBill(Long billId, Integer payment) {
+    public Bill paymentByBill(Long billId, Integer payment, LocalDateTime paymentDate) {
         try(Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            Query<Bill> query = session.createQuery("update Bill b set b.payment = :payment where b.id = :id");
+            Query<Bill> query = session.createQuery("update Bill b set " +
+                    "b.payment = :payment, " +
+                    "b.paymentDate = :paymentDate " +
+                    "where b.id = :id");
             query.setParameter("payment", payment);
+            query.setParameter("paymentDate", paymentDate);
             query.setParameter("id", billId);
             query.executeUpdate();
             transaction.commit();

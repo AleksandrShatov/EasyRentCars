@@ -1,8 +1,10 @@
 package com.erc.repository.hibernate;
 
+import com.erc.domain.BillStatus;
 import com.erc.domain.hibernate.Bill;
 import com.erc.repository.CrudOperations;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BillRepository extends CrudOperations<Long, Bill> {
@@ -13,10 +15,12 @@ public interface BillRepository extends CrudOperations<Long, Bill> {
 
     List<Bill> findByCarId(Long carId);
 
-    List<Bill> findByPaymentStatus(String paymentStatus);
+    List<Bill> findByPaymentStatus(BillStatus paymentStatus);
 
-    void changeBillPaymentStatus(Long billId, String paymentStatus);
+    List<Bill> findWithoutPaymentAndExpiredDates();
 
-    Bill paymentByBill(Long billId, Integer payment);
+    void changeBillPaymentStatus(Long billId, BillStatus paymentStatus);
+
+    Bill paymentByBill(Long billId, Integer payment, LocalDateTime paymentDate);
 
 }

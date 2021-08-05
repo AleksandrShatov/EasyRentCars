@@ -1,5 +1,6 @@
 package com.erc.controller.requests;
 
+import com.erc.domain.BillStatus;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class BillUpdateRequest {
 
     private LocalDateTime dateForPayment;
 
-    private String paymentStatus;
+    private BillStatus paymentStatus;
 
     private LocalDateTime paymentDate;
 

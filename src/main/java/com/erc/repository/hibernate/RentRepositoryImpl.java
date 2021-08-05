@@ -1,5 +1,7 @@
 package com.erc.repository.hibernate;
 
+import com.erc.domain.RentStatus;
+import com.erc.domain.hibernate.Bill;
 import com.erc.domain.hibernate.Car;
 import com.erc.domain.hibernate.Rent;
 import lombok.RequiredArgsConstructor;
@@ -127,6 +129,19 @@ public class RentRepositoryImpl implements RentRepository {
             transaction.begin();
             Query<Rent> query = session.createQuery("delete from Rent r where r.id = :id");
             query.setParameter("id", id);
+            query.executeUpdate();
+            transaction.commit();
+        }
+    }
+
+    @Override
+    public void changeRentStatus(Long rentId, RentStatus rentStatus) {
+        try(Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+            Query<Rent> query = session.createQuery("update Rent r set r.rentStatus = :rentStatus where r.id = :id");
+            query.setParameter("rentStatus", rentStatus);
+            query.setParameter("id", rentId);
             query.executeUpdate();
             transaction.commit();
         }

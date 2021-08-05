@@ -187,4 +187,15 @@ public class RentController {
         }
     }
 
+    @ApiOperation("Change rent status")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "rentId", value = "Rent ID", required = true, dataType = "string", paramType = "query"),
+            @ApiImplicitParam(name = "rentStatus", value = "New status for rent", required = true, dataType = "string", paramType = "query",
+                    allowableValues = "NOT_CONFIRMED, CONFIRMED, CANCELED")
+    })
+    @PostMapping("/change/rentStatus/{rentId, rentStatus}")
+    public void changeRentStatus(Long rentId, RentStatus rentStatus) {
+        rentRepository.changeRentStatus(rentId, rentStatus);
+    }
+
 }

@@ -2,7 +2,6 @@ package com.erc.domain.hibernate;
 
 import com.erc.domain.CarStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,32 +43,16 @@ public class Car {
     @ToString.Exclude // TODO: Was endless loop between car and model, after adding Discount mapping
     @ManyToOne
     @JoinColumn(name = "model_id", referencedColumnName = "id")
-//    @JsonBackReference // Don't show model for cars!!!
-    @JsonIgnoreProperties("cars")
+    @JsonBackReference
     private Model model;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "carForDiscount", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("carForDiscount")
+    @JsonManagedReference
     private Set<Discount> discounts = Collections.emptySet();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("car")
+    @JsonManagedReference
     private Set<Rent> rents = Collections.emptySet();
-
-//    @Override
-//    public String toString() {
-//        return "Car{" +
-//                "id=" + id +
-//                ", regNumber='" + regNumber + '\'' +
-//                ", productionDate=" + productionDate +
-//                ", tariff=" + tariff +
-//                ", color='" + color + '\'' +
-//                ", carStatus='" + carStatus + '\'' +
-//                ", modelId=" + model.getId() +
-//                ", discounts=" + discounts +
-//                ", rents=" + rents +
-//                '}';
-//    }
 }

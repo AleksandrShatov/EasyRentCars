@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
@@ -22,10 +21,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
-
-    @Autowired
-    @Qualifier("entityManagerFactory")
-    private EntityManager entityManager;
 
     @Override
     public List<User> findAll() {
@@ -67,10 +62,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User entity) {
         try (Session session = sessionFactory.openSession()) {
-//            Transaction transaction = session.getTransaction();
-//            transaction.begin();
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
             Long userId = (Long) session.save(entity);
-//            transaction.commit();
+            transaction.commit();
             return findOne(userId);
         }
     }

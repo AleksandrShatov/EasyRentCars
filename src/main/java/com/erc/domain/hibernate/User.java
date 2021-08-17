@@ -1,6 +1,6 @@
 package com.erc.domain.hibernate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -54,12 +54,12 @@ public class User {
 
     @ToString.Exclude
     @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("users")
+    @JsonManagedReference
     private Set<Role> roles = Collections.emptySet();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("user")
+    @JsonManagedReference
     private Set<Rent> rents = Collections.emptySet();
 
 }

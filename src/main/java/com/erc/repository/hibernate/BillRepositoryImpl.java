@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,10 +21,6 @@ public class BillRepositoryImpl implements BillRepository {
     @Autowired
     @Qualifier("sessionFactory")
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    @Qualifier("entityManagerFactory")
-    private EntityManager entityManager;
 
     @Override
     public List<Bill> findAll() {
@@ -193,7 +188,7 @@ public class BillRepositoryImpl implements BillRepository {
             query.executeUpdate();
             transaction.commit();
 
-            session.update(findOne(billId)); // TODO: ???
+            session.update(findOne(billId));
 
             return findOne(billId);
         }

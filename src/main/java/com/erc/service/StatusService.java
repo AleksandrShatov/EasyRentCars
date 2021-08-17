@@ -22,7 +22,6 @@ public class StatusService {
 
     private final BillRepository billRepository;
 
-    // TODO: Change to Integer for count entities with updated status
     public void updateStatusForAllEntities() {
 
         List<Bill> billsWithExpiredDates = billRepository.findWithoutPaymentAndExpiredDates();

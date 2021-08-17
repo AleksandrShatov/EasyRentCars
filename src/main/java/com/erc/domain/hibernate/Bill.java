@@ -1,10 +1,8 @@
 package com.erc.domain.hibernate;
 
 import com.erc.domain.BillStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

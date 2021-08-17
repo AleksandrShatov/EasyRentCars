@@ -1,6 +1,5 @@
 package com.erc.domain.hibernate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,8 +35,6 @@ public class Model {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JsonManagedReference // Don't show model for cars!!!
-    @JsonIgnoreProperties("model")
+    @JsonManagedReference
     private Set<Car> cars = Collections.emptySet();
-
 }

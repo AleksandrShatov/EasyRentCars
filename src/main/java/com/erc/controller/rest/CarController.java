@@ -23,7 +23,6 @@ public class CarController {
 
     private final CarRepository carRepository;
 
-    // TODO: Is it good to use more than one repository in controller?
     private final ModelRepository modelRepository;
 
     @ApiOperation("Find all cars")
@@ -147,7 +146,6 @@ public class CarController {
     @DeleteMapping("/delete/{id}")
     public void delete(@RequestParam Long id) {
         carRepository.delete(id);
-//        modelRepository.delete(id); // TODO: We can delete data from wrong repository!!!
     }
 
     @ApiOperation("Change car status")

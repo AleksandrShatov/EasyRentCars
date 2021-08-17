@@ -1,8 +1,6 @@
 package com.erc.repository.hibernate;
 
 import com.erc.domain.RentStatus;
-import com.erc.domain.hibernate.Bill;
-import com.erc.domain.hibernate.Car;
 import com.erc.domain.hibernate.Rent;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
@@ -23,10 +20,6 @@ public class RentRepositoryImpl implements RentRepository {
     @Autowired
     @Qualifier("sessionFactory")
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    @Qualifier("entityManagerFactory")
-    private EntityManager entityManager;
 
     @Override
     public List<Rent> findAll() {

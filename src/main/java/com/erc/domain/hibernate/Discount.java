@@ -1,7 +1,6 @@
 package com.erc.domain.hibernate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -33,6 +32,6 @@ public class Discount {
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "car_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("discounts")
+    @JsonBackReference
     private Car carForDiscount;
 }

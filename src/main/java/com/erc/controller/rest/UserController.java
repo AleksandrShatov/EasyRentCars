@@ -28,15 +28,6 @@ public class UserController {
         return userRepository.findAll();
     }
 
-//    @ApiOperation("Find user by his id")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "id", value = "User ID", required = true, dataType = "string", paramType = "path")
-//    })
-//    @GetMapping("/{id}")
-//    public User findOne(@PathVariable("id") Long id) {
-//        return userRepository.findOne(id);
-//    }
-
     @ApiOperation("Find user by his id")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "User ID", required = true, dataType = "string", paramType = "query")
@@ -128,11 +119,6 @@ public class UserController {
     }
 
     @ApiOperation("Save roles for current user id")
-    //TODO bad for UI
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "userId", value = "User ID", required = true, dataType = "string", paramType = "query"),
-//            @ApiImplicitParam(name = "requests", value = "Roles for user", required = true, dataType = "string", paramType = "body")
-//    })
     @PostMapping("/save/roles")
     public void saveUserRoles(@RequestParam Long userId, @RequestBody List<RoleUpdateRequest> requests) {
 

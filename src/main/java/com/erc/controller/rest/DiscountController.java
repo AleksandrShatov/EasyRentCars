@@ -35,7 +35,7 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Discount ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{id}") // TODO: 1
+    @GetMapping("/find/{id}")
     public Discount findOne(@RequestParam Long id) {
         return discountRepository.findOne(id);
     }
@@ -44,7 +44,7 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "carId", value = "Car ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{carId}") // TODO: 2
+    @GetMapping("/find/{carId}")
     public List<Discount> findByCarId(@RequestParam Long carId) {
         return discountRepository.findByCarId(carId);
     }
@@ -53,7 +53,7 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "percent", value = "Discount percent", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{percent}") // TODO: 3
+    @GetMapping("/find/{percent}")
     public List<Discount> findByPercent(@RequestParam Integer percent) {
         return discountRepository.findByPercent(percent);
     }
@@ -63,7 +63,7 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startDate", value = "Start date", required = true, dataType = "String", paramType = "query")
     })
-    @GetMapping("/find/{startDate}") // TODO: 4
+    @GetMapping("/find/{startDate}")
     public List<Discount> findFromStartDate(@RequestParam LocalDateTime startDate) {
         return discountRepository.findFromStartDate(startDate);
     }
@@ -83,7 +83,6 @@ public class DiscountController {
 //                }
 
                 Car car = searchCarResult.get();
-                // TODO: If no Data?!
                 LocalDateTime lastEndTime = null;
                 try {
                     lastEndTime = discountRepository.getLastEndDateByCarId(request.getCarId());
@@ -94,11 +93,6 @@ public class DiscountController {
                 if(lastEndTime == null ) {
                     lastEndTime = LocalDateTime.now();
                 }
-
-                // TODO: Don't work!
-//                if(lastEndTime.isEqual(null)) {
-//                    lastEndTime = LocalDateTime.now();
-//                }
 
                 if(car.getCarStatus().equals("AVAILABLE") && request.getStartDate().isAfter(lastEndTime)) {
 

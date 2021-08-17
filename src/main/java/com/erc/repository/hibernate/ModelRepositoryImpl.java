@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Repository
@@ -20,10 +19,6 @@ public class ModelRepositoryImpl implements ModelRepository{
     @Autowired
     @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
-
-    @Autowired
-    @Qualifier("entityManagerFactory")
-    private EntityManager entityManager;
 
 
     @Override

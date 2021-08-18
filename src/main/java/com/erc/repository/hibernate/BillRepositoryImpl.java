@@ -50,7 +50,6 @@ public class BillRepositoryImpl implements BillRepository {
     @Override
     public List<Bill> findByUserId(Long userId) {
         try(Session session = sessionFactory.openSession()) {
-            // TODO: Ask about call chain
             Query<Bill> query = session.createQuery("select b from Bill b where b.rent.user.id = :userId", Bill.class);
             query.setParameter("userId", userId);
 

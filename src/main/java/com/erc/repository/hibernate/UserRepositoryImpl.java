@@ -84,7 +84,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    // TODO change to Criteria API
     @Override
     public User update(User entity) {
         try(Session session = sessionFactory.openSession()) {

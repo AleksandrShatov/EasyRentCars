@@ -40,7 +40,7 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarStatus carStatus = CarStatus.NOT_AVAILABLE;
 
-    @ToString.Exclude // TODO: Was endless loop between car and model, after adding Discount mapping
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "model_id", referencedColumnName = "id")
     @JsonBackReference

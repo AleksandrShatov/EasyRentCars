@@ -1,5 +1,22 @@
 package com.erc.controller.rest;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+
 import com.erc.controller.requests.BillCreateRequest;
 import com.erc.controller.requests.BillUpdateRequest;
 import com.erc.domain.BillStatus;
@@ -8,15 +25,6 @@ import com.erc.domain.hibernate.Bill;
 import com.erc.domain.hibernate.Rent;
 import com.erc.repository.hibernate.BillRepository;
 import com.erc.repository.hibernate.RentRepository;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/bill")
@@ -28,7 +36,7 @@ public class BillController {
     private final RentRepository rentRepository;
 
     @ApiOperation("Find all bills")
-    @GetMapping("/find/all")
+    @GetMapping("find/all")
     public List<Bill> findAll() {
         return billRepository.findAll();
     }
@@ -37,7 +45,7 @@ public class BillController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Bill ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{id}")
+    @GetMapping("find/{id}")
     public Bill findOne(@RequestParam Long id) {
         return billRepository.findOne(id);
     }
@@ -46,7 +54,7 @@ public class BillController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "rentId", value = "Rent ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{rentId}")
+    @GetMapping("find/{rentId}")
     public Bill findByRentId(Long rentId) {
         return billRepository.findByRentId(rentId);
     }
@@ -55,7 +63,7 @@ public class BillController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "User ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{userId}")
+    @GetMapping("find/{userId}")
     public List<Bill> findByUserId(Long userId) {
         return billRepository.findByUserId(userId);
     }
@@ -64,7 +72,7 @@ public class BillController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "carId", value = "Car ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{carId}")
+    @GetMapping("find/{carId}")
     public List<Bill> findByCarId(Long carId) {
         return billRepository.findByCarId(carId);
     }
@@ -73,19 +81,19 @@ public class BillController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "paymentStatus", value = "Payment status", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{paymentStatus}")
+    @GetMapping("find/{paymentStatus}")
     public List<Bill> findByPaymentStatus(BillStatus paymentStatus) {
         return billRepository.findByPaymentStatus(paymentStatus);
     }
 
     @ApiOperation("Find bills without payment and expired dates")
-    @GetMapping("/find/withoutPayment")
+    @GetMapping("find/withoutPayment")
     public List<Bill> findWithoutPaymentAndExpiredDates() {
         return billRepository.findWithoutPaymentAndExpiredDates();
     }
 
     @ApiOperation("Save new bill and return it.")
-    @PostMapping("/save/{request}")
+    @PostMapping("save/one")
     public Bill save(@RequestBody BillCreateRequest request) {
 
         try {
@@ -114,14 +122,14 @@ public class BillController {
     }
 
     @ApiOperation("Save new bill")
-    @PostMapping("/addone/{request}")
+    @PostMapping("add/one")
     public void addOne(@RequestBody BillCreateRequest request) {
 
         save(request);
     }
 
     @ApiOperation("Save list of bills")
-    @PostMapping("/save/{rents}")
+    @PostMapping("save/many")
     public void save(@RequestBody List<BillCreateRequest> bills) {
         for (BillCreateRequest newBill : bills) {
             save(newBill);
@@ -129,7 +137,7 @@ public class BillController {
     }
 
     @ApiOperation("Update bill data, only if rent the same or new rent status is 'CONFIRMED'")
-    @PostMapping("/update")
+    @PutMapping("update")
     public Bill update(@RequestBody BillUpdateRequest request) {
         try {
 
@@ -168,7 +176,7 @@ public class BillController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Bill ID", required = true, dataType = "string", paramType = "query")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@RequestParam Long id) {
 
         try {
@@ -191,7 +199,7 @@ public class BillController {
             @ApiImplicitParam(name = "paymentStatus", value = "New status for bill", required = true, dataType = "string", paramType = "query",
                     allowableValues = "AWAITING_PAYMENT, PAID, EXPIRED, CANCELED")
     })
-    @PostMapping("/change/billStatus/{billId, paymentStatus}")
+    @PutMapping("change/billStatus/{billId, paymentStatus}")
     public void changeBillPaymentStatus(@RequestParam Long billId, BillStatus paymentStatus) {
         billRepository.changeBillPaymentStatus(billId, paymentStatus);
     }
@@ -201,7 +209,7 @@ public class BillController {
             @ApiImplicitParam(name = "billId", value = "Bill ID", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "payment", value = "Invoice payment amount", required = true, dataType = "string", paramType = "query")
     })
-    @PostMapping("/payment/{billId, payment}")
+    @PutMapping("payment/{billId, payment}")
     public Bill paymentByBill(Long billId, Integer payment) {
 
         try {

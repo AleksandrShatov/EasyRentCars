@@ -1,5 +1,21 @@
 package com.erc.controller.rest;
 
+import java.util.List;
+import java.util.Optional;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+
 import com.erc.controller.requests.CarCreateRequest;
 import com.erc.controller.requests.CarUpdateRequest;
 import com.erc.domain.CarStatus;
@@ -7,14 +23,6 @@ import com.erc.domain.hibernate.Car;
 import com.erc.domain.hibernate.Model;
 import com.erc.repository.hibernate.CarRepository;
 import com.erc.repository.hibernate.ModelRepository;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/car")
@@ -26,7 +34,7 @@ public class CarController {
     private final ModelRepository modelRepository;
 
     @ApiOperation("Find all cars")
-    @GetMapping("/find/all")
+    @GetMapping("find/all")
     public List<Car> findAll() {
         return carRepository.findAll();
     }
@@ -35,7 +43,7 @@ public class CarController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Car ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{id}")
+    @GetMapping("find/{id}")
     public Car findOne(@RequestParam Long id) {
         return carRepository.findOne(id);
     }
@@ -44,7 +52,7 @@ public class CarController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "regNumber", value = "Car reg_number", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{regNumber}")
+    @GetMapping("find/{regNumber}")
     public Car findByRegNumber(@RequestParam String regNumber) {
         return carRepository.findByRegNumber(regNumber);
     }
@@ -53,7 +61,7 @@ public class CarController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tariff", value = "Car tariff", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{tariff}")
+    @GetMapping("find/{tariff}")
     public List<Car> findByTariff(@RequestParam Integer tariff) {
         return carRepository.findByTariff(tariff);
     }
@@ -62,19 +70,19 @@ public class CarController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "carStatus", value = "Car status", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{carStatus}")
+    @GetMapping("find/{carStatus}")
     public List<Car> findByCarStatus(@RequestParam CarStatus carStatus) {
         return carRepository.findByCarStatus(carStatus);
     }
 
     @ApiOperation("Find available cars (with car status = 'AVAILABLE')")
-    @GetMapping("/find/availableCars")
+    @GetMapping("find/availableCars")
     public List<Car> findAvailableCars() {
         return carRepository.findByCarStatus(CarStatus.AVAILABLE);
     }
 
     @ApiOperation("Save new car and return it")
-    @PostMapping("/save/{request}")
+    @PostMapping("save/one")
     public Car save(@RequestBody CarCreateRequest request) {
 
         try {
@@ -99,14 +107,14 @@ public class CarController {
     }
 
     @ApiOperation("Save new car")
-    @PostMapping("/addone/{request}")
+    @PostMapping("/add/one")
     public void addOne(@RequestBody CarCreateRequest request) {
 
         save(request);
     }
 
     @ApiOperation("Save list of cars")
-    @PostMapping("/save/{cars}")
+    @PostMapping("save/many")
     public void save(@RequestBody List<CarCreateRequest> cars) {
         for (CarCreateRequest newCar : cars) {
             save(newCar);
@@ -114,7 +122,7 @@ public class CarController {
     }
 
     @ApiOperation("Update car data")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public Car update(@RequestBody CarUpdateRequest request) {
         try {
             Optional<Model> searchModelResult = Optional.ofNullable(modelRepository.findOne(request.getModelId()));
@@ -143,7 +151,7 @@ public class CarController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Car ID", required = true, dataType = "string", paramType = "query")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@RequestParam Long id) {
         carRepository.delete(id);
     }
@@ -154,7 +162,7 @@ public class CarController {
             @ApiImplicitParam(name = "carStatus", value = "New status for car", required = true, dataType = "string", paramType = "query",
                     allowableValues = "NOT_AVAILABLE, AVAILABLE, RESERVED, IN_RENT")
     })
-    @PostMapping("/change/carStatus/{carId, carStatus}")
+    @PutMapping("/change/carStatus/{carId, carStatus}")
     public Car changeCarStatus(@RequestParam Long carId, @RequestParam CarStatus carStatus) {
 
         carRepository.changeCarStatus(carId, carStatus);

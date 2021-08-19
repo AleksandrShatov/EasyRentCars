@@ -1,5 +1,8 @@
 package com.erc.controller.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.erc.controller.requests.RoleUpdateRequest;
 import com.erc.controller.requests.UserCreateRequest;
 import com.erc.controller.requests.UserUpdateRequest;
@@ -10,10 +13,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
 @RequestMapping("/user")
@@ -23,7 +30,7 @@ public class UserController {
     private final UserRepository userRepository;
 
     @ApiOperation("Find all users")
-    @GetMapping("/find/all")
+    @GetMapping("find/all")
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -32,7 +39,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "User ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{id}")
+    @GetMapping("find/{id}")
     public User findOne(@RequestParam Long id) {
         return userRepository.findOne(id);
     }
@@ -41,7 +48,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "login", value = "User login", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{login}")
+    @GetMapping("find/{login}")
     public User findByLogin(@RequestParam String login) {
         return userRepository.findByLogin(login);
     }
@@ -51,13 +58,13 @@ public class UserController {
             @ApiImplicitParam(name = "login", value = "User login", required = true, dataType = "string", paramType = "query"),
             @ApiImplicitParam(name = "password", value = "User password", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{login, password}")
+    @GetMapping("find/{login, password}")
     public User findByLoginAndPassword(@RequestParam String login, @RequestParam String password) {
         return userRepository.findByLoginAndPassword(login, password);
     }
 
     @ApiOperation("Save new user and return him")
-    @PostMapping("/save/{request}")
+    @PostMapping("save/one")
     public User save(@RequestBody UserCreateRequest request) {
 
         User user = new User();
@@ -76,14 +83,14 @@ public class UserController {
     }
 
     @ApiOperation("Save new user")
-    @PostMapping("/addone/{request}")
+    @PostMapping("add/one")
     public void addOne(@RequestBody UserCreateRequest request) {
 
         save(request);
     }
 
     @ApiOperation("Save list of users")
-    @PostMapping("/save/{users}")
+    @PostMapping("/save/many")
     public void save(@RequestBody List<UserCreateRequest> users) {
         for (UserCreateRequest newUser : users) {
             save(newUser);
@@ -91,7 +98,7 @@ public class UserController {
     }
 
     @ApiOperation("Update user data")
-    @PostMapping("/update")
+    @PutMapping("update")
     public User update(@RequestBody UserUpdateRequest request) {
         User user = new User();
         user.setId(request.getId());
@@ -113,7 +120,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "User ID", required = true, dataType = "string", paramType = "query")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@RequestParam Long id) {
         userRepository.delete(id);
     }

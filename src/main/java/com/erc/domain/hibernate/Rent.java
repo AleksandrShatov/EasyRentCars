@@ -1,12 +1,22 @@
 package com.erc.domain.hibernate;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+
 import com.erc.domain.RentStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "rents")
@@ -43,10 +53,4 @@ public class Rent {
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     @JsonBackReference
     private Car car;
-
-    // TODO: StackOverflowError with Bill and Rent
-//    @ToString.Exclude
-//    @OneToOne(mappedBy = "rent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JsonManagedReference
-//    private Bill bill;
 }

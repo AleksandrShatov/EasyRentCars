@@ -1,6 +1,23 @@
 package com.erc.domain.hibernate;
 
-import com.erc.domain.CarStatus;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
@@ -8,10 +25,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Set;
+import com.erc.domain.CarStatus;
 
 @Entity
 @Table(name = "cars")

@@ -1,10 +1,10 @@
 package com.erc.repository.hibernate;
 
+import java.util.List;
+
 import com.erc.domain.hibernate.Role;
 import com.erc.domain.hibernate.User;
 import com.erc.repository.CrudOperations;
-
-import java.util.List;
 
 public interface UserRepository extends CrudOperations<Long, User> {
 

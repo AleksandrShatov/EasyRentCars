@@ -1,16 +1,24 @@
 package com.erc.controller.rest;
 
-import com.erc.controller.requests.ModelCreateRequest;
-import com.erc.controller.requests.ModelUpdateRequest;
-import com.erc.domain.hibernate.Model;
-import com.erc.repository.hibernate.ModelRepository;
+import java.util.List;
+
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.util.List;
+import com.erc.controller.requests.ModelCreateRequest;
+import com.erc.controller.requests.ModelUpdateRequest;
+import com.erc.domain.hibernate.Model;
+import com.erc.repository.hibernate.ModelRepository;
 
 @RestController
 @RequestMapping("/model")
@@ -20,7 +28,7 @@ public class ModelController {
     private final ModelRepository modelRepository;
 
     @ApiOperation("Find all models")
-    @GetMapping("/find/all")
+    @GetMapping("find/all")
     public List<Model> findAll() {
         return modelRepository.findAll();
     }
@@ -29,7 +37,7 @@ public class ModelController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Model ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{id}")
+    @GetMapping("find/{id}")
     public Model findOne(@RequestParam Long id) {
         return modelRepository.findOne(id);
     }
@@ -38,7 +46,7 @@ public class ModelController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "modelName", value = "Model name", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{modelName}")
+    @GetMapping("find/{modelName}")
     public List<Model> findByModel(@RequestParam String modelName) {
         return modelRepository.findByModelName(modelName);
     }
@@ -47,7 +55,7 @@ public class ModelController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "manufacturer", value = "Model manufacturer", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{manufacturer}")
+    @GetMapping("find/{manufacturer}")
     public List<Model> findByManufacturer(@RequestParam String manufacturer) {
         return modelRepository.findByManufacturer(manufacturer);
     }
@@ -56,13 +64,13 @@ public class ModelController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fuel", value = "Model fuel", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{fuel}")
+    @GetMapping("find/{fuel}")
     public List<Model> findByFuel(@RequestParam String fuel) {
         return modelRepository.findByFuel(fuel);
     }
 
     @ApiOperation("Save new model and return it")
-    @PostMapping("/save/{request}")
+    @PostMapping("save/one")
     public Model save(@RequestBody ModelCreateRequest request) {
 
         Model model = new Model();
@@ -75,14 +83,14 @@ public class ModelController {
     }
 
     @ApiOperation("Save new model")
-    @PostMapping("/addone/{request}")
+    @PostMapping("/add/one")
     public void addOne(@RequestBody ModelCreateRequest request) {
 
         save(request);
     }
 
     @ApiOperation("Save list of models")
-    @PostMapping("/save/{models}")
+    @PostMapping("/save/many")
     public void save(@RequestBody List<ModelCreateRequest> models) {
         for (ModelCreateRequest newModel : models) {
             save(newModel);
@@ -90,7 +98,7 @@ public class ModelController {
     }
 
     @ApiOperation("Update model data")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public Model update(@RequestBody ModelUpdateRequest request) {
 
         Model model = new Model();
@@ -107,7 +115,7 @@ public class ModelController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Model ID", required = true, dataType = "string", paramType = "query")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@RequestParam Long id) {
         modelRepository.delete(id);
     }

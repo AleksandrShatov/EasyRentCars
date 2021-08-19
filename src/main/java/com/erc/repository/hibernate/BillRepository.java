@@ -1,11 +1,11 @@
 package com.erc.repository.hibernate;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import com.erc.domain.BillStatus;
 import com.erc.domain.hibernate.Bill;
 import com.erc.repository.CrudOperations;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public interface BillRepository extends CrudOperations<Long, Bill> {
 

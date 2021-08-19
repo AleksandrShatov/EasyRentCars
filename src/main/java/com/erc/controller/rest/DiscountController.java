@@ -1,20 +1,28 @@
 package com.erc.controller.rest;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+
 import com.erc.controller.requests.DiscountCreateRequest;
 import com.erc.controller.requests.DiscountUpdateRequest;
 import com.erc.domain.hibernate.Car;
 import com.erc.domain.hibernate.Discount;
 import com.erc.repository.hibernate.CarRepository;
 import com.erc.repository.hibernate.DiscountRepository;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/discount")
@@ -26,7 +34,7 @@ public class DiscountController {
     private final CarRepository carRepository;
 
     @ApiOperation("Find all discounts")
-    @GetMapping("/find/all")
+    @GetMapping("find/all")
     public List<Discount> findAll() {
         return discountRepository.findAll();
     }
@@ -35,7 +43,7 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Discount ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{id}") // TODO: 1
+    @GetMapping("find/{id}")
     public Discount findOne(@RequestParam Long id) {
         return discountRepository.findOne(id);
     }
@@ -44,7 +52,7 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "carId", value = "Car ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{carId}") // TODO: 2
+    @GetMapping("find/{carId}")
     public List<Discount> findByCarId(@RequestParam Long carId) {
         return discountRepository.findByCarId(carId);
     }
@@ -53,7 +61,7 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "percent", value = "Discount percent", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{percent}") // TODO: 3
+    @GetMapping("find/{percent}")
     public List<Discount> findByPercent(@RequestParam Integer percent) {
         return discountRepository.findByPercent(percent);
     }
@@ -63,13 +71,13 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startDate", value = "Start date", required = true, dataType = "String", paramType = "query")
     })
-    @GetMapping("/find/{startDate}") // TODO: 4
+    @GetMapping("find/{startDate}")
     public List<Discount> findFromStartDate(@RequestParam LocalDateTime startDate) {
         return discountRepository.findFromStartDate(startDate);
     }
 
     @ApiOperation("Save new discount and return it")
-    @PostMapping("/save/{request}")
+    @PostMapping("save/one")
     public Discount save(@RequestBody DiscountCreateRequest request) {
 
         try {
@@ -83,7 +91,6 @@ public class DiscountController {
 //                }
 
                 Car car = searchCarResult.get();
-                // TODO: If no Data?!
                 LocalDateTime lastEndTime = null;
                 try {
                     lastEndTime = discountRepository.getLastEndDateByCarId(request.getCarId());
@@ -94,11 +101,6 @@ public class DiscountController {
                 if(lastEndTime == null ) {
                     lastEndTime = LocalDateTime.now();
                 }
-
-                // TODO: Don't work!
-//                if(lastEndTime.isEqual(null)) {
-//                    lastEndTime = LocalDateTime.now();
-//                }
 
                 if(car.getCarStatus().equals("AVAILABLE") && request.getStartDate().isAfter(lastEndTime)) {
 
@@ -119,14 +121,14 @@ public class DiscountController {
     }
 
     @ApiOperation("Save new discount")
-    @PostMapping("/addone/{request}")
+    @PostMapping("add/one")
     public void addOne(@RequestBody DiscountCreateRequest request) {
 
         save(request);
     }
 
     @ApiOperation("Save list of discounts")
-    @PostMapping("/save/{rents}")
+    @PostMapping("save/many")
     public void save(@RequestBody List<DiscountCreateRequest> discounts) {
         for (DiscountCreateRequest newDiscount : discounts) {
             save(newDiscount);
@@ -134,7 +136,7 @@ public class DiscountController {
     }
 
     @ApiOperation("Update discount data")
-    @PostMapping("/update")
+    @PutMapping("update")
     public Discount update(@RequestBody DiscountUpdateRequest request) {
         // TODO: Need logic for check dates!
         try {
@@ -163,7 +165,7 @@ public class DiscountController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Discount ID", required = true, dataType = "string", paramType = "query")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@RequestParam Long id) {
 
         discountRepository.delete(id);

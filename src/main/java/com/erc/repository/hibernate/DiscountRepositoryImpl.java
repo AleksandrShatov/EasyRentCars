@@ -1,5 +1,8 @@
 package com.erc.repository.hibernate;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import com.erc.domain.hibernate.Discount;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
@@ -10,10 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Repository
 @RequiredArgsConstructor
 public class DiscountRepositoryImpl implements DiscountRepository {
@@ -21,10 +20,6 @@ public class DiscountRepositoryImpl implements DiscountRepository {
     @Autowired
     @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
-
-    @Autowired
-    @Qualifier("entityManagerFactory")
-    private EntityManager entityManager;
 
     @Override
     public List<Discount> findAll() {
@@ -139,7 +134,6 @@ public class DiscountRepositoryImpl implements DiscountRepository {
     public LocalDateTime getLastEndDateByCarId(Long carId) {
         try(Session session = sessionFactory.openSession()) {
 
-            // TODO: How better to check?
             Query<Discount> query = session.createQuery("select d from Discount d where d.carForDiscount.id = :carId order by d.endDate desc", Discount.class);
             query.setParameter("carId", carId);
             query.setFirstResult(0);

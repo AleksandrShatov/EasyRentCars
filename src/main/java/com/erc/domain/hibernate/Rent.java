@@ -1,21 +1,27 @@
 package com.erc.domain.hibernate;
 
-import com.erc.domain.RentStatus;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+
+import com.erc.domain.RentStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "rents")
 @Data
 @NoArgsConstructor
-//@EqualsAndHashCode(exclude = {"user", "car"})
 public class Rent {
 
     @Id
@@ -40,17 +46,11 @@ public class Rent {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("rents")
+    @JsonBackReference
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "car_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("rents")
+    @JsonBackReference
     private Car car;
-
-    // TODO: StackOverflowError with Bill and Rent
-//    @ToString.Exclude
-//    @OneToOne(mappedBy = "rent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JsonManagedReference
-//    private Bill bill;
 }

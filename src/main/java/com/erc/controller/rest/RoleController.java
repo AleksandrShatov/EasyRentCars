@@ -1,5 +1,7 @@
 package com.erc.controller.rest;
 
+import java.util.List;
+
 import com.erc.controller.requests.RoleCreateRequest;
 import com.erc.controller.requests.RoleUpdateRequest;
 import com.erc.domain.hibernate.Role;
@@ -8,9 +10,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
 @RequestMapping("/role")
@@ -20,7 +27,7 @@ public class RoleController {
     private final RoleRepository roleRepository;
 
     @ApiOperation("Find all roles")
-    @GetMapping("/find/all")
+    @GetMapping("find/all")
     public List<Role> findAll() {
         return roleRepository.findAll();
     }
@@ -29,7 +36,7 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Role ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{id}")
+    @GetMapping("find/{id}")
     public Role findOne(@RequestParam Integer id) {
         return roleRepository.findOne(id);
     }
@@ -38,13 +45,13 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleName", value = "Role name", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{roleName}")
+    @GetMapping("find/{roleName}")
     public Role findRoleName(@RequestParam String roleName) {
         return roleRepository.findByRoleName(roleName);
     }
 
     @ApiOperation("Save new role and return it")
-    @PostMapping("/save/{request}")
+    @PostMapping("save/one")
     public Role save(@RequestBody RoleCreateRequest request) {
 
         Role role = new Role();
@@ -54,14 +61,14 @@ public class RoleController {
     }
 
     @ApiOperation("Save new role")
-    @PostMapping("/addone/{request}")
+    @PostMapping("add/one")
     public void addOne(@RequestBody RoleCreateRequest request) {
 
         save(request);
     }
 
     @ApiOperation("Save list of roles")
-    @PostMapping("/save/{roles}")
+    @PostMapping("save/many")
     public void save(@RequestBody List<RoleCreateRequest> roles) {
         for (RoleCreateRequest newRole : roles) {
             save(newRole);
@@ -69,7 +76,7 @@ public class RoleController {
     }
 
     @ApiOperation("Update role data")
-    @PostMapping("/update")
+    @PutMapping("update")
     public Role update(@RequestBody RoleUpdateRequest request) {
 
         Role role = new Role();
@@ -83,7 +90,7 @@ public class RoleController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Role ID", required = true, dataType = "string", paramType = "query")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@RequestParam Integer id) {
         roleRepository.delete(id);
     }

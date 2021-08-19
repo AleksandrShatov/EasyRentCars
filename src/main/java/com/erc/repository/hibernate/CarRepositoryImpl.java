@@ -1,5 +1,7 @@
 package com.erc.repository.hibernate;
 
+import java.util.List;
+
 import com.erc.domain.CarStatus;
 import com.erc.domain.hibernate.Car;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-
 @Repository
 @RequiredArgsConstructor
 public class CarRepositoryImpl implements CarRepository {
@@ -21,10 +20,6 @@ public class CarRepositoryImpl implements CarRepository {
     @Autowired
     @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
-
-    @Autowired
-    @Qualifier("entityManagerFactory")
-    private EntityManager entityManager;
 
     @Override
     public List<Car> findAll() {

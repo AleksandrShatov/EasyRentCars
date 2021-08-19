@@ -1,15 +1,23 @@
 package com.erc.domain.hibernate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Collections;
+import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
-import java.util.Collections;
-import java.util.Set;
 
 @Entity
 @Table(name = "models")
@@ -36,8 +44,6 @@ public class Model {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "model", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JsonManagedReference // Don't show model for cars!!!
-    @JsonIgnoreProperties("model")
+    @JsonManagedReference
     private Set<Car> cars = Collections.emptySet();
-
 }

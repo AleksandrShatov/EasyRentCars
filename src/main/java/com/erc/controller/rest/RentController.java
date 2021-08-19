@@ -1,5 +1,9 @@
 package com.erc.controller.rest;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
 import com.erc.controller.requests.RentCreateRequest;
 import com.erc.controller.requests.RentUpdateRequest;
 import com.erc.domain.CarStatus;
@@ -14,11 +18,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
 @RequestMapping("/rent")
@@ -32,7 +39,7 @@ public class RentController {
     private final CarRepository carRepository;
 
     @ApiOperation("Find all rents")
-    @GetMapping("/find/all")
+    @GetMapping("find/all")
     public List<Rent> findAll() {
         return rentRepository.findAll();
     }
@@ -41,7 +48,7 @@ public class RentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Rent ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{id}")
+    @GetMapping("find/{id}")
     public Rent findOne(@RequestParam Long id) {
         return rentRepository.findOne(id);
     }
@@ -50,7 +57,7 @@ public class RentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "User ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{userId}")
+    @GetMapping("find/{userId}")
     public List<Rent> findByUserId(@RequestParam Long userId) {
         return rentRepository.findByUserId(userId);
     }
@@ -59,13 +66,13 @@ public class RentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "carId", value = "Car ID", required = true, dataType = "string", paramType = "query")
     })
-    @GetMapping("/find/{carId}")
+    @GetMapping("find/{carId}")
     public List<Rent> findByCarId(@RequestParam Long carId) {
         return rentRepository.findByCarId(carId);
     }
 
     @ApiOperation("Save new rent and return it, also change car status from 'AVAILABLE' to 'RESERVED'")
-    @PostMapping("/save/{request}")
+    @PostMapping("save/one")
     public Rent save(@RequestBody RentCreateRequest request) {
 
         try {
@@ -104,14 +111,14 @@ public class RentController {
     }
 
     @ApiOperation("Save new rent")
-    @PostMapping("/addone/{request}")
+    @PostMapping("add/one")
     public void addOne(@RequestBody RentCreateRequest request) {
 
         save(request);
     }
 
     @ApiOperation("Save list of rents")
-    @PostMapping("/save/{rents}")
+    @PostMapping("save/many")
     public void save(@RequestBody List<RentCreateRequest> rents) {
         for (RentCreateRequest newRent : rents) {
             save(newRent);
@@ -119,7 +126,7 @@ public class RentController {
     }
 
     @ApiOperation("Update rent data, only if car the same or new car status is 'AVAILABLE'")
-    @PostMapping("/update")
+    @PutMapping("update")
     public Rent update(@RequestBody RentUpdateRequest request) {
         try {
 
@@ -167,7 +174,7 @@ public class RentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "Rent ID", required = true, dataType = "string", paramType = "query")
     })
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void delete(@RequestParam Long id) {
 
         try {
@@ -193,7 +200,7 @@ public class RentController {
             @ApiImplicitParam(name = "rentStatus", value = "New status for rent", required = true, dataType = "string", paramType = "query",
                     allowableValues = "NOT_CONFIRMED, CONFIRMED, CANCELED")
     })
-    @PostMapping("/change/rentStatus/{rentId, rentStatus}")
+    @PutMapping("/change/rentStatus/{rentId, rentStatus}")
     public void changeRentStatus(Long rentId, RentStatus rentStatus) {
         rentRepository.changeRentStatus(rentId, rentStatus);
     }

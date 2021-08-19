@@ -1,10 +1,10 @@
 package com.erc.repository.hibernate;
 
-import com.erc.domain.hibernate.Discount;
-import com.erc.repository.CrudOperations;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.erc.domain.hibernate.Discount;
+import com.erc.repository.CrudOperations;
 
 public interface DiscountRepository extends CrudOperations<Long, Discount> {
 

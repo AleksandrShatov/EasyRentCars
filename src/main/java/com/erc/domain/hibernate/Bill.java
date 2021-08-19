@@ -1,13 +1,21 @@
 package com.erc.domain.hibernate;
 
-import com.erc.domain.BillStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import java.time.LocalDateTime;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import com.erc.domain.BillStatus;
 
 @Entity
 @Table(name = "bills")
@@ -35,10 +43,8 @@ public class Bill {
     @Enumerated(EnumType.STRING)
     private BillStatus paymentStatus = BillStatus.AWAITING_PAYMENT;
 
-//    @ToString.Exclude
     @OneToOne
     @JoinColumn(name = "rent_id", referencedColumnName = "id")
-//    @JsonBackReference
     private Rent rent;
 
 }

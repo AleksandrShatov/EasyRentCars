@@ -1,10 +1,10 @@
 package com.erc.repository.hibernate;
 
+import java.util.List;
+
 import com.erc.domain.CarStatus;
 import com.erc.domain.hibernate.Car;
 import com.erc.repository.CrudOperations;
-
-import java.util.List;
 
 public interface CarRepository extends CrudOperations<Long, Car> {
 

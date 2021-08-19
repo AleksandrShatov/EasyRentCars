@@ -1,12 +1,12 @@
 package com.erc.controller.requests;
 
+import java.time.LocalDateTime;
+
 import com.erc.domain.BillStatus;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @ApiOperation(value = "Class for updating bill entity")
 @Data

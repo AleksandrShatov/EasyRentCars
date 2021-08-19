@@ -4,16 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import com.erc.controller.requests.RentCreateRequest;
-import com.erc.controller.requests.RentUpdateRequest;
-import com.erc.domain.CarStatus;
-import com.erc.domain.RentStatus;
-import com.erc.domain.hibernate.Car;
-import com.erc.domain.hibernate.Rent;
-import com.erc.domain.hibernate.User;
-import com.erc.repository.hibernate.CarRepository;
-import com.erc.repository.hibernate.RentRepository;
-import com.erc.repository.hibernate.UserRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import com.erc.controller.requests.RentCreateRequest;
+import com.erc.controller.requests.RentUpdateRequest;
+import com.erc.domain.CarStatus;
+import com.erc.domain.RentStatus;
+import com.erc.domain.hibernate.Car;
+import com.erc.domain.hibernate.Rent;
+import com.erc.domain.hibernate.User;
+import com.erc.repository.hibernate.CarRepository;
+import com.erc.repository.hibernate.RentRepository;
+import com.erc.repository.hibernate.UserRepository;
+import com.erc.service.RentService;
+
 @RestController
 @RequestMapping("/rent")
 @RequiredArgsConstructor
@@ -37,6 +39,8 @@ public class RentController {
     private final UserRepository userRepository;
 
     private final CarRepository carRepository;
+
+    private final RentService rentService;
 
     @ApiOperation("Find all rents")
     @GetMapping("find/all")
@@ -203,6 +207,15 @@ public class RentController {
     @PutMapping("/change/rentStatus/{rentId, rentStatus}")
     public void changeRentStatus(Long rentId, RentStatus rentStatus) {
         rentRepository.changeRentStatus(rentId, rentStatus);
+    }
+
+    @ApiOperation("Confirm rent (change rent status from 'NOT_CONFIRMED' to 'CONFIRMED') and auto creation new Bill for current rent")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "rentId", value = "Rent ID", required = true, dataType = "string", paramType = "query"),
+    })
+    @PutMapping("confirm/{rentId}")
+    public Rent confirmRent(Long rentId) {
+        return rentService.confirmRent(rentId);
     }
 
 }

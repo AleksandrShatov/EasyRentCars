@@ -135,7 +135,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    //TODO Fix native SQL
     @Override
     public void saveUserRoles(Long userId, List<Role> userRoles) {
         try(Session session = sessionFactory.openSession()) {

@@ -66,7 +66,6 @@ public class DiscountController {
         return discountRepository.findByPercent(percent);
     }
 
-    // TODO: Don't work! Problem with converting data format.
     @ApiOperation("Find discounts from start date")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "startDate", value = "Start date", required = true, dataType = "String", paramType = "query")
@@ -84,11 +83,6 @@ public class DiscountController {
             Optional<Car> searchCarResult = Optional.ofNullable(carRepository.findOne(request.getCarId()));
 
             if(searchCarResult.isPresent()) {
-
-                // TODO: Should check on Frontend?
-//                if(request.getEndDate().isBefore(request.getStartDate())) {
-//
-//                }
 
                 Car car = searchCarResult.get();
                 LocalDateTime lastEndTime = null;
@@ -138,7 +132,6 @@ public class DiscountController {
     @ApiOperation("Update discount data")
     @PutMapping("update")
     public Discount update(@RequestBody DiscountUpdateRequest request) {
-        // TODO: Need logic for check dates!
         try {
             Optional<Discount> searchDiscountRequest = Optional.ofNullable(discountRepository.findOne(request.getId()));
             Optional<Car> searchCarResult = Optional.ofNullable(carRepository.findOne(request.getCarId()));
